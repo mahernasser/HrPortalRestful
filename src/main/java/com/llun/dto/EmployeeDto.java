@@ -1,18 +1,20 @@
 package com.llun.dto;
 
-import jakarta.ws.rs.core.Link;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-public record EmployeeDTO(
+import java.util.Set;
+
+public record EmployeeDto(
         Integer id,
         String firstName,
         String lastName,
         String email,
         String phoneNumber,
         LocalDate hireDate,
-        Integer jobId,
+        String jobId,
         BigDecimal salary,
         Integer managerId,
-        String departmentName
-) {}
+        Integer departmentId
+) {
+}

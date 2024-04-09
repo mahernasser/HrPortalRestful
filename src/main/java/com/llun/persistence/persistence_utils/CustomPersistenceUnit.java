@@ -85,9 +85,9 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         return List.of(
                 "com.llun.persistence.entity.Employee",
                 "com.llun.persistence.entity.Department",
-                "com.llun.persistence.entity.EmployeeBenefit",
-                "com.llun.persistence.entity.Salary",
-                "com.llun.persistence.entity.JobTitle"
+                "com.llun.persistence.entity.Job",
+                "com.llun.persistence.entity.JobHistory",
+                "com.llun.persistence.entity.Location"
         );
     }
 

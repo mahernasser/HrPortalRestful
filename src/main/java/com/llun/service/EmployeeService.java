@@ -1,76 +1,90 @@
 package com.llun.service;
 
-import com.llun.dto.EmployeeDTO;
-import com.llun.persistence.entity.Employee;
-import com.llun.persistence.repository.EmployeeRepo;
-import com.llun.mapper.EmployeeMapper;
+import com.llun.dto.EmployeeDto;
+import com.llun.dto.JobHistoryDto;
+import com.llun.error.DuplicateIdException;
 import com.llun.error.ResourceNotFoundException;
+import com.llun.mapper.EmployeeMapper;
+import com.llun.mapper.JobHistoryMapper;
+import com.llun.persistence.entity.Employee;
+import com.llun.persistence.entity.JobHistory;
+import com.llun.persistence.repository.EmployeeRepo;
+import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 public class EmployeeService {
 
-    private final EmployeeRepo employeeRepo;
+    //    @Inject
+    private EmployeeRepo employeeRepository = new EmployeeRepo();
 
-    public EmployeeService() {
-        this.employeeRepo = new EmployeeRepo();
-    }
 
-    public EmployeeDTO getEmployeeById(Integer id) {
-        Employee employee = employeeRepo.findUserById(id);
-        if (employee == null) {
-            throw new ResourceNotFoundException("Employee with id " + id + " not found");
+
+    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+        Optional<Employee> existingEmployee = employeeRepository.getEmployeeById(employeeDto.id());
+        if (existingEmployee.isPresent()) {
+            throw new DuplicateIdException("Employee already exists with id: " + employeeDto.id(), "/employees/" + employeeDto.id());
+        } else {
+
+            Employee employee = EmployeeMapper.INSTANCE.toEntity(employeeDto);
+            Employee savedEmployee = employeeRepository.createEmployee(employee);
+            return EmployeeMapper.INSTANCE.toDto(savedEmployee);
         }
-        return EmployeeMapper.INSTANCE.toDTO(employee);
     }
 
-    public List<EmployeeDTO> getAllEmployees() {
-        List<Employee> employees = employeeRepo.findAllEmployees();
-        return employees.stream()
-                .map(EmployeeMapper.INSTANCE::toDTO)
+    public List<JobHistoryDto> getEmployeeJobHistory(Integer id) {
+        List<JobHistory> jobHistories = employeeRepository.getEmployeeJobHistory(id);
+        return jobHistories.stream()
+                .map(JobHistoryMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
     }
 
-    public EmployeeDTO
-    saveEmployee(EmployeeDTO employeeDTO) {
-        Employee employee = EmployeeMapper.INSTANCE.toEntity(employeeDTO);
-        employee = employeeRepo.saveEmployee(employee);
-        return EmployeeMapper.INSTANCE.toDTO(employee);
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employees = employeeRepository.getAllEmployees();
+        return employees.stream()
+                .map(EmployeeMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+    /*
+  List<JobHistory> getJobHistoryByEmployeeId(int id) {
+        return TransactionUtil.doInTransaction(entityManager ->
+                entityManager.createQuery("SELECT j FROM JobHistory j WHERE j.employee.id = :id", JobHistory.class)
+                        .setParameter("id", id)
+                        .getResultList());
+    }
+    * */
+
+//    public List<JobHistoryDto> getJobHistoryByEmployeeId(Integer id) {
+//        List<JobHistory> jobHistories = employeeRepository.getJobHistoryByEmployeeId(id);
+//        return jobHistories.stream()
+//                .map(JobHistoryMapper.INSTANCE::toDto)
+//                .collect(Collectors.toList());
+//    }
+
+
+    public List<JobHistoryDto> getJobHistoryByEmployeeId(Integer id) {
+        List<JobHistory> jobHistories = employeeRepository.getEmployeeJobHistory(id);
+        return jobHistories.stream()
+                .map(JobHistoryMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     public void deleteEmployee(Integer id) {
-        Employee employee = employeeRepo.findUserById(id);
-        if (employee == null) {
-            throw new ResourceNotFoundException("Employee with id " + id + " not found");
-        }
-        employeeRepo.deleteEmployee(employee);
+        employeeRepository.deleteEmployee(id);
     }
 
-    public EmployeeDTO updateEmployee(Integer id, EmployeeDTO updatedEmployeeDTO) {
-        Employee existingEmployee = employeeRepo.findUserById(id);
-        if (existingEmployee == null) {
-            throw new ResourceNotFoundException("Employee with id " + id + " not found");
-        }
-
-        // Create a new EmployeeDTO with the updated fields. Use the existing value if the field is null.
-        EmployeeDTO newEmployeeDTO = new EmployeeDTO(
-                id,
-                updatedEmployeeDTO.firstName() != null ? updatedEmployeeDTO.firstName() : existingEmployee.getFirstName(),
-                updatedEmployeeDTO.lastName() != null ? updatedEmployeeDTO.lastName() : existingEmployee.getLastName(),
-                updatedEmployeeDTO.email() != null ? updatedEmployeeDTO.email() : existingEmployee.getEmail(),
-                updatedEmployeeDTO.phoneNumber() != null ? updatedEmployeeDTO.phoneNumber() : existingEmployee.getPhoneNumber(),
-                updatedEmployeeDTO.hireDate() != null ? updatedEmployeeDTO.hireDate() : existingEmployee.getHireDate(),
-                updatedEmployeeDTO.jobId() != null ? updatedEmployeeDTO.jobId() : (existingEmployee.getJob() != null ? existingEmployee.getJob().getId() : null),
-                updatedEmployeeDTO.salary() != null ? updatedEmployeeDTO.salary() : existingEmployee.getSalary(),
-                updatedEmployeeDTO.managerId() != null ? updatedEmployeeDTO.managerId() : (existingEmployee.getManager() != null ? existingEmployee.getManager().getId() : null),
-                updatedEmployeeDTO.departmentName() != null ? updatedEmployeeDTO.departmentName() : (existingEmployee.getDepartment() != null ? existingEmployee.getDepartment().getDepartmentName() : null)
-        );
-
-        // Map the newEmployeeDTO to an Employee entity and save it to the database.
-        Employee updatedEmployee = EmployeeMapper.INSTANCE.toEntity(newEmployeeDTO);
-        updatedEmployee = employeeRepo.saveEmployee(updatedEmployee);
-
-        return EmployeeMapper.INSTANCE.toDTO(updatedEmployee);
+    public EmployeeDto getEmployeeById(Integer id) {
+        Optional<Employee> employee = employeeRepository.getEmployeeById(id);
+        return employee.map(EmployeeMapper.INSTANCE::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id, "/employees/" + id));
     }
+
+
+
+
+
+
 }

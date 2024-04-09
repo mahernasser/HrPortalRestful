@@ -11,20 +11,24 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+
 @Table(name = "departments")
 public class Department {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "department_id", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
-    @Column(name = "department_name", length = 100)
+    @Size(max = 50)
+    @Column(name = "department_name", length = 50)
     private String departmentName;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Employee> employees = new LinkedHashSet<>();
+    @Column(name = "manager_id")
+    private Integer managerId;
 
+    @Column(name = "location_id")
+    private Integer locationId;
+
+    @OneToMany(mappedBy = "department")
+    private Set<JobHistory> jobHistories = new LinkedHashSet<>();
 
 }

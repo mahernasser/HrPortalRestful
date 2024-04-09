@@ -1,8 +1,12 @@
 package com.llun.mapper;
 
-import com.llun.dto.EmployeeDTO;
+
+import com.llun.dto.DepartmentDto;
+import com.llun.dto.EmployeeDto;
+import com.llun.dto.JobDto;
+import com.llun.persistence.entity.Department;
 import com.llun.persistence.entity.Employee;
-import jakarta.ws.rs.core.Link;
+import com.llun.persistence.entity.Job;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -11,8 +15,12 @@ import org.mapstruct.factory.Mappers;
 public interface EmployeeMapper {
     EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
 
-    @Mapping(source = "department.departmentName", target = "departmentName")
-    EmployeeDTO toDTO(Employee employee);
+//    @Mapping(target = "jobHistories", ignore = true)
+//    JobDto jobToJobDto(Job job);
 
-    Employee toEntity(EmployeeDTO employeeDTO);
+//    @Mapping(target = "jobHistories", ignore = true)
+//    DepartmentDto departmentToDepartmentDto(Department department);
+
+    EmployeeDto toDto(Employee employee);
+    Employee toEntity(EmployeeDto employeeDto);
 }

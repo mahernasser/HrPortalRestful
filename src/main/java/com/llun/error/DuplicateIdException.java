@@ -4,19 +4,20 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
 import java.time.LocalDateTime;
 
-public class ResourceNotFoundException extends WebApplicationException {
-    public ResourceNotFoundException(String message, String path) {
-        super(Response.status(Response.Status.NOT_FOUND)
+public class DuplicateIdException extends WebApplicationException {
+
+    public DuplicateIdException(String message, String path) {
+        super(Response.status(Response.Status.CONFLICT) // 409 stats code
                 .entity(new ErrorDetails(
                         LocalDateTime.now().toString(),
-                        Response.Status.NOT_FOUND.getStatusCode(),
-                        "Not Found",
+                        Response.Status.CONFLICT.getStatusCode(),
+                        "Conflict",
                         message,
                         path))
                 .type(MediaType.APPLICATION_JSON)
                 .build());
     }
+
 }

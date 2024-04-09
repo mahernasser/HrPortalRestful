@@ -2,13 +2,12 @@ package com.llun.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -17,7 +16,6 @@ import java.util.Set;
 @Table(name = "employees")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id", nullable = false)
     private Integer id;
 
@@ -40,29 +38,20 @@ public class Employee {
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "job_id")
-    private JobTitle job;
+    @Size(max = 20)
+    @Column(name = "job_id", length = 20)
+    private String jobId;
 
     @Column(name = "salary", precision = 10, scale = 2)
     private BigDecimal salary;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "manager_id")
-    private Employee manager;
+    @Column(name = "manager_id")
+    private Integer managerId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @Column(name = "department_id")
+    private Integer departmentId;
 
-    @OneToMany(mappedBy = "employee")
-    private Set<EmployeeBenefit> employeeBenefits = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "manager")
-    private Set<Employee> employees = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "employee")
-    private Set<Salary> salaries = new LinkedHashSet<>();
-
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<JobHistory> jobHistories = new LinkedHashSet<>();
 
 }
