@@ -6,14 +6,18 @@ import com.llun.error.ResourceNotFoundException;
 import com.llun.mapper.DepartmentMapper;
 import com.llun.persistence.entity.Department;
 import com.llun.persistence.repository.DepartmentRepo;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class DepartmentService {
 
-    private DepartmentRepo departmentRepository = new DepartmentRepo();
+    @Inject
+    private DepartmentRepo departmentRepository;
 
 
     public DepartmentDto createDepartment(DepartmentDto departmentDto) {

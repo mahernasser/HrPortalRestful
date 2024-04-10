@@ -2,12 +2,15 @@ package com.llun.controller;
 
 import com.llun.dto.LocationDto;
 import com.llun.service.LocationService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+@RequestScoped
 @Path("/v1/locations")
 public class LocationController {
 

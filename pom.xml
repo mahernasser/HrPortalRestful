@@ -43,7 +43,7 @@
                 <configuration>
                     <url>http://localhost:8085/manager/text</url>
                     <server>TomcatServer</server>
-                    <path>/jaxrs</path>
+                    <path>/hr-portal</path>
                     <username>tomcat</username>
                     <password>tomcat</password>
                 </configuration>
@@ -95,7 +95,16 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
@@ -133,16 +142,24 @@
             <artifactId>hibernate-core</artifactId>
             <version>6.2.5.Final</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.jboss.weld.servlet</groupId>-->
-<!--            <artifactId>weld-servlet-core</artifactId>-->
-<!--            <version>4.0.1.Final</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.jboss.weld.se</groupId>-->
-<!--            <artifactId>weld-se-core</artifactId>-->
-<!--            <version>4.0.1.Final</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Extension Runtime Because Tomcat Doesn't Support CDI -->
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-core</artifactId>
+            <version>4.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>4.0.1.Final</version>
+        </dependency>
+        <!-- No Need for it because i'm using Wildfly application server -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>

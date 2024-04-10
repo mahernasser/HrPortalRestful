@@ -7,14 +7,18 @@ import com.llun.error.ResourceNotFoundException;
 import com.llun.mapper.JobMapper;
 import com.llun.persistence.entity.Job;
 import com.llun.persistence.repository.JobRepo;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class JobService {
 
-    private final JobRepo jobRepository = new JobRepo();
+    @Inject
+    private  JobRepo jobRepository;
 
     public List<JobDto> getAllJobs() {
         List<Job> jobs = jobRepository.getAllJobs();

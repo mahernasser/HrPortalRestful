@@ -3,6 +3,8 @@ package com.llun.controller;
 import com.llun.dto.EmployeeDto;
 import com.llun.dto.JobHistoryDto;
 import com.llun.service.EmployeeService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -11,10 +13,13 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+@RequestScoped
 @Path("/v1/employees")
 public class EmployeeController {
 
-    private final EmployeeService employeeService = new EmployeeService();
+
+    @Inject
+    private  EmployeeService employeeService ;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

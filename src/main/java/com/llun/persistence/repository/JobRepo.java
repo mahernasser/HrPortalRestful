@@ -2,10 +2,12 @@ package com.llun.persistence.repository;
 
 import com.llun.persistence.entity.Job;
 import com.llun.persistence.persistence_utils.TransactionUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 import java.util.Optional;
 
+@ApplicationScoped
 public class JobRepo {
 
     public List<Job> getAllJobs() {

@@ -7,14 +7,18 @@ import com.llun.error.ResourceNotFoundException;
 import com.llun.mapper.JobHistoryMapper;
 import com.llun.persistence.entity.JobHistory;
 import com.llun.persistence.repository.JobHistoryRepo;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class JobHistoryService {
 
-    private final JobHistoryRepo jobHistoryRepository = new JobHistoryRepo();
+    @Inject
+    private JobHistoryRepo jobHistoryRepository;
 
     public JobHistoryDto createJobHistory(JobHistoryDto jobHistoryDto) {
         Optional<JobHistory> existingJobHistory = jobHistoryRepository.getJobHistoryById(jobHistoryDto.id());

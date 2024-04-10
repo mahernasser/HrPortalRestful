@@ -7,8 +7,10 @@ import com.llun.error.ResourceNotFoundException;
 import com.llun.persistence.entity.Employee;
 import com.llun.persistence.entity.JobHistory;
 import com.llun.persistence.persistence_utils.TransactionUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
+@ApplicationScoped
 public class EmployeeRepo {
 
 

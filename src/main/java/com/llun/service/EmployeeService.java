@@ -16,11 +16,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class EmployeeService {
 
-    //    @Inject
-    private EmployeeRepo employeeRepository = new EmployeeRepo();
-
+    @Inject
+    private EmployeeRepo employeeRepository;
 
 
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
@@ -88,8 +90,6 @@ public class EmployeeService {
         Employee updatedEmployee = employeeRepository.updateEmployee(employee);
         return EmployeeMapper.INSTANCE.toDto(updatedEmployee);
     }
-
-
 
 
 }

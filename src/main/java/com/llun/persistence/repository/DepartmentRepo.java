@@ -2,10 +2,13 @@ package com.llun.persistence.repository;
 
 import com.llun.persistence.entity.Department;
 import com.llun.persistence.persistence_utils.TransactionUtil;
+import jakarta.enterprise.context.RequestScoped;
 
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.enterprise.context.ApplicationScoped;
+@ApplicationScoped
 public class DepartmentRepo {
 
     public List<Department> getAllDepartments() {
@@ -66,7 +69,6 @@ public class DepartmentRepo {
             }
         });
     }
-
 
 
 }

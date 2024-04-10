@@ -2,16 +2,22 @@ package com.llun.controller;
 
 import com.llun.dto.DepartmentDto;
 import com.llun.service.DepartmentService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+@RequestScoped
 @Path("/v1/departments")
 public class DepartmentController {
 
-    private final DepartmentService departmentService = new DepartmentService();
+    @Inject
+    private DepartmentService departmentService;
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

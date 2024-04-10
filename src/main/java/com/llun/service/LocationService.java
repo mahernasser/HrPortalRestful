@@ -5,14 +5,18 @@ import com.llun.error.ResourceNotFoundException;
 import com.llun.mapper.LocationMapper;
 import com.llun.persistence.entity.Location;
 import com.llun.persistence.repository.LocationRepo;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class LocationService {
 
-    private LocationRepo locationRepository = new LocationRepo();
+    @Inject
+    private LocationRepo locationRepository;
 
     public List<LocationDto> getAllLocations() {
         List<Location> locations = locationRepository.getAllLocations();

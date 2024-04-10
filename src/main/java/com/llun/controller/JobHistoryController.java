@@ -3,12 +3,15 @@ package com.llun.controller;
 
 import com.llun.dto.JobHistoryDto;
 import com.llun.service.JobHistoryService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+@RequestScoped
 @Path("/v1/jobHistories")
 public class JobHistoryController {
 

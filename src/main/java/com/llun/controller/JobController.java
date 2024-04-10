@@ -3,16 +3,21 @@ package com.llun.controller;
 
 import com.llun.dto.JobDto;
 import com.llun.service.JobService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+@RequestScoped
 @Path("/v1/jobs")
 public class JobController {
 
-    private final JobService jobService = new JobService();
+    @Inject
+    private JobService jobService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
