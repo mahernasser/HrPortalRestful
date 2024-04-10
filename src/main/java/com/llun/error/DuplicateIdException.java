@@ -4,6 +4,7 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class DuplicateIdException extends WebApplicationException {
@@ -11,7 +12,7 @@ public class DuplicateIdException extends WebApplicationException {
     public DuplicateIdException(String message, String path) {
         super(Response.status(Response.Status.CONFLICT) // 409 stats code
                 .entity(new ErrorDetails(
-                        LocalDateTime.now().toString(),
+                        LocalDateTime.now(),
                         Response.Status.CONFLICT.getStatusCode(),
                         "Conflict",
                         message,
@@ -21,3 +22,4 @@ public class DuplicateIdException extends WebApplicationException {
     }
 
 }
+

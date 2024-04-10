@@ -68,14 +68,5 @@ public class DepartmentRepo {
     }
 
 
-    public static void main(String[] args) {
-        DepartmentRepo departmentRepo = new DepartmentRepo();
-        Department department = new Department();
-        department.setDepartmentName("IT");
-        department.setManagerId(1);
-        department.setLocationId(1);
-        department.setId(2);
-       departmentRepo.updateDepartment(department);
-    }
 
 }

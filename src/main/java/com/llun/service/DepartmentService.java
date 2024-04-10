@@ -30,6 +30,10 @@ public class DepartmentService {
     }
 
     public void deleteDepartment(Integer id) {
+        DepartmentDto departmentDto = getDepartmentById(id);
+        if (departmentDto.id() == null) {
+            throw new ResourceNotFoundException("Department not found with id: " + id, "/departments/" + id);
+        }
         departmentRepository.deleteDepartment(id);
     }
 
@@ -37,5 +41,12 @@ public class DepartmentService {
         Optional<Department> department = departmentRepository.getDepartmentById(id);
         return department.map(DepartmentMapper.INSTANCE::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id, "/departments/" + id));
+    }
+
+    public DepartmentDto updateDepartment(Integer id, DepartmentDto departmentDto) {
+        Department department = DepartmentMapper.INSTANCE.toEntity(departmentDto);
+        department.setId(id);
+        Department updatedDepartment = departmentRepository.updateDepartment(department);
+        return DepartmentMapper.INSTANCE.toDto(updatedDepartment);
     }
 }

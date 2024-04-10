@@ -97,12 +97,6 @@ public class EmployeeRepo {
         });
     }
 
-    public static void main(String[] args) {
-        EmployeeRepo employeeRepo = new EmployeeRepo();
-       List<JobHistory> histories = employeeRepo.getEmployeeJobHistory(105);
-        System.out.println(histories.get(0).getDepartment().getDepartmentName());
-
-    }
 
 
 }

@@ -82,7 +82,12 @@ public class EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id, "/employees/" + id));
     }
 
-
+    public EmployeeDto updateEmployee(Integer id, EmployeeDto employeeDto) {
+        Employee employee = EmployeeMapper.INSTANCE.toEntity(employeeDto);
+        employee.setId(id);
+        Employee updatedEmployee = employeeRepository.updateEmployee(employee);
+        return EmployeeMapper.INSTANCE.toDto(updatedEmployee);
+    }
 
 
 

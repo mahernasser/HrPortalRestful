@@ -33,7 +33,7 @@ public class Location {
     @Column(name = "state_province", length = 50)
     private String stateProvince;
 
-    @Size(max = 2)
+    @Size(max = 3)
     @Column(name = "country_id", length = 2)
     private String countryId;
 

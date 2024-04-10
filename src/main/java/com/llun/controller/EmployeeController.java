@@ -14,10 +14,7 @@ import java.util.List;
 @Path("/v1/employees")
 public class EmployeeController {
 
-//    @Inject
-//    private EmployeeService employeeService;
-
-    EmployeeService employeeService = new EmployeeService();
+    private final EmployeeService employeeService = new EmployeeService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,14 +53,12 @@ public class EmployeeController {
         return Response.noContent().build();
     }
 
-
-
-//    public static void main(String[] args) {
-//        Weld weld = new Weld();
-//        WeldContainer container = weld.initialize();
-//        EmployeeController employeeService = container.select(EmployeeController.class).get();
-//        employeeService.deleteEmployee(103);
-//        weld.shutdown();
-//    }
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public EmployeeDto updateEmployee(@PathParam("id") Integer id, EmployeeDto employeeDto) {
+        return employeeService.updateEmployee(id, employeeDto);
+    }
 
 }

@@ -11,13 +11,7 @@ import java.util.List;
 @Path("/v1/departments")
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
-
-
-    DepartmentController() {
-        this.departmentService = new DepartmentService();
-    }
-
+    private final DepartmentService departmentService = new DepartmentService();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -44,6 +38,14 @@ public class DepartmentController {
     public Response deleteDepartment(@PathParam("id") Integer id) {
         departmentService.deleteDepartment(id);
         return Response.noContent().build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public DepartmentDto updateDepartment(@PathParam("id") Integer id, DepartmentDto departmentDto) {
+        return departmentService.updateDepartment(id, departmentDto);
     }
 
 }
